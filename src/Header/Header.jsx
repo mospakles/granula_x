@@ -3,15 +3,20 @@ import "./Header.css";
 
 const Header = ({ mode, toggleMode }) => {
   return (
-    <div>
-      <header className="header">
-        <h1>Granula X Calc</h1>
-        <label className="toggle">
-          <input type="checkbox" onClick={toggleMode} />
-          <span className="slider"></span>
+    <header className="header">
+      <h1>Calculator</h1>
+      <div className="mode-toggle">
+        <span>{mode === "serious" ? "Serious Mode" : "Fun Mode"}</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={mode === "fun"}
+            onChange={toggleMode}
+          />
+          <span className="slider round"></span>
         </label>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 };
 

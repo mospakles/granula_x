@@ -1,46 +1,49 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Funmode.css";
 
 const Funmode = () => {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const contents = {
+    112: {
+      type: "Meme",
+      title: "Funny Meme",
+      content: "Funny Meme Isn't it?",
+    },
+    172: {
+      type: "Joke",
+      title: "Hilarious Joke",
+      content: "What were you really expecting?",
+    },
+    753: {
+      type: "Movie",
+      title: "Interesting Movie",
+      content: "Tell me a movie you love so much",
+    },
+  };
 
   const handleClick = (value) => {
-    setInput(input + value);
+    if (["1", "2", "3", "5", "7"].includes(value)) {
+      setInput(input + value);
+    }
     if (value === "Go!") {
+      setLoading(true);
       fetchMeme(input);
     }
   };
 
   const fetchMeme = (code) => {
-    let url;
-    if (code === "112") {
-      url = "https://api.imgflip.com/get_memes";
-    } else if (code === "172") {
-      url = "https://v2.jokeapi.dev/joke/";
-    } else if (code === "753") {
-      url = `http://www.omdbapi.com/?apikey=[yourkey]&t=${input}`;
-    }
+    setLoading(true);
 
-    if (url) {
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          if (code === "112") {
-            setInput(data.data.memes[0].url);
-          } else if (code === "172") {
-            setInput(data.setup + " " + data.delivery);
-          } else if (code === "753") {
-            setInput(data.Title + " - " + data.Plot);
-          }
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    }
-  };
-
-  const handleGoButton = (value) => {
-    setInput(input + value);
-    if (value === "Go") {
-      fetchMeme(input);
+    const content = contents[code];
+    if (content && content.content) {
+      setLoading(false);
+      setInput(content.content);
+    } else {
+      setLoading(false);
+      setInput("Invalid code or no content available.");
     }
   };
 
@@ -56,27 +59,28 @@ const Funmode = () => {
           <button className="btn" onClick={() => handleClick("7")}>
             7
           </button>
-          <button className="btn" onClick={() => handleClick("8")}>
+          <button className="btn" onClick={() => handleClick("8")} disabled>
             8
           </button>
-          <button className="btn" onClick={() => handleClick("9")}>
+          <button className="btn" onClick={() => handleClick("9")} disabled>
             9
           </button>
           <button className="btn blue" onClick={clearInput}>
             Del
           </button>
-          <button className="btn" onClick={() => handleClick("4")}>
+          <button className="btn" onClick={() => handleClick("4")} disabled>
             4
           </button>
           <button className="btn" onClick={() => handleClick("5")}>
             5
           </button>
-          <button className="btn" onClick={() => handleClick("6")}>
+          <button className="btn" onClick={() => handleClick("6")} disabled>
             6
           </button>
           <button
             className="btn orange operator"
             onClick={() => handleClick("+")}
+            disabled
           >
             +
           </button>
@@ -89,26 +93,29 @@ const Funmode = () => {
           <button className="btn" onClick={() => handleClick("3")}>
             3
           </button>
-          <button className="btn" onClick={() => handleClick("-")}>
+          <button className="btn" onClick={() => handleClick("-")} disabled>
             -
           </button>
-          <button className="btn" onClick={() => handleClick(".")}>
+          <button className="btn" onClick={() => handleClick(".")} disabled>
             .
           </button>
-          <button className="btn" onClick={() => handleClick("0")}>
+          <button className="btn" onClick={() => handleClick("0")} disabled>
             0
           </button>
-          <button className="btn" onClick={() => handleClick("/")}>
+          <button className="btn" onClick={() => handleClick("/")} disabled>
             /
           </button>
-          <button className="btn" onClick={() => handleClick("*")}>
+          <button className="btn" onClick={() => handleClick("*")} disabled>
             x
           </button>
           <button className="btn blue span-2" onClick={clearInput}>
             RESET
           </button>
-          <button onClick={() => handleClick("Go!")} className="btn red span-2">
-            Go
+          <button
+            onClick={() => handleClick("Go!")}
+            className={`btn red span-2 ${loading ? "loading" : ""}`}
+          >
+            {loading ? "Loading..." : "Go"}
           </button>
         </div>
       </div>

@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 85vh;
     background-image: url('https://www.tutorialkart.com/sample_image.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -10,9 +10,10 @@
 
 .calculator {
     max-width: 70%;
-    padding: 10px;
+    padding: 20px;
     margin: auto;
     text-align: center;
+    box-shadow: 0px 0px 10px rgba(48, 136, 130, 0.4);
 }
 
 input {
@@ -25,6 +26,7 @@ input {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: 0;
+    gap: 10px;
 }
 
 .calc-numbers {
@@ -38,6 +40,7 @@ input {
     height: 70px;
     margin-bottom: 20px;
     border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(10, 9, 19, 0.4);
 }
 
 .buttons {
@@ -60,10 +63,17 @@ input {
     border: 1px solid black;
     background-color: white;
     border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .btn:hover {
     background: #aabac7;
+}
+
+.btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .blue {
